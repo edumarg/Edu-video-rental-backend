@@ -40,6 +40,28 @@ app.post("/api/genres", (req, res) => {
   res.send(genre);
 });
 
+// PUT or update an existing genre
+app.put("/api/genres/:id", (req, res) => {
+  const genre = genres.find((genre) => genre.id === parseInt(req.params.id));
+  if (!genre) return res.status(404).send("Genre not found");
+
+  const result = validateGenre(req.body);
+  if (result.error) return res.status(400).send(result.error.message);
+
+  genre.name = req.body.name;
+  res.send(genre);
+});
+
+//DELETE genre
+app.delete("/api/genres/:id", (req, res) => {
+  const genre = genres.find((genre) => genre.id === parseInt(req.params.id));
+  if (!genre) return res.status(404).send("Genre not found");
+
+  const index = genres.indexOf(genre);
+  genres.splice(index, 1);
+  res.send(genre);
+});
+
 // Listen for connections
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
