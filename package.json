@@ -1,0 +1,25 @@
+{
+  "name": "Vidly-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "joi": "^17.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edumarg/Edu-video-rental-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edumarg/Edu-video-rental-backend/issues"
+  },
+  "homepage": "https://github.com/edumarg/Edu-video-rental-backend#readme"
+}
