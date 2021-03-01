@@ -6,7 +6,12 @@ const mongoose = require("mongoose");
 // Movies services
 
 // mongoDB movie schema
-const movieSchema = new mongoose.schema({ name: String });
+const movieSchema = new mongoose.schema({
+  title: String,
+  genreId: String,
+  numberInStock: Number,
+  dailyRentalRate: Number,
+});
 
 // MongoDB movie Model
 const Movie = mongoose.model("Movie", movieSchema);
