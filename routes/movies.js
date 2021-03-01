@@ -1,8 +1,16 @@
 const express = require("express");
 const Joi = require("joi");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 // Movies services
+
+// mongoDB movie schema
+const movieSchema = new mongoose.schema({ name: String });
+
+// MongoDB movie Model
+const Movie = mongoose.model("Movie", movieSchema);
+
 const movies = [];
 // movie schema: {
 //     id,

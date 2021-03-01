@@ -1,8 +1,15 @@
 const express = require("express");
 const Joi = require("joi");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 // GENRES services
+
+// mongoDB genre schema
+const genreSchema = new mongoose.schema({ name: String });
+
+// MongoDB genre Model
+const Genre = mongoose.model("Genre", genreSchema);
 
 const genres = [];
 

@@ -1,7 +1,14 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 const movies = require("./routes/movies");
 const genres = require("./routes/genres");
+
+// Connect to mongoDB
+mongoose
+  .connect("mongodb://localhost/vidly")
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch((err) => console.log("Error connecting to Mongodb..."));
 
 const app = express();
 app.use(express.json()); //allows json parsing
