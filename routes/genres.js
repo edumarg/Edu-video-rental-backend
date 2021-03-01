@@ -87,19 +87,23 @@ router.put("/:id", async (req, res) => {
   const validate = validateGenre(req.body);
   if (validate.error) return res.status(400).send(validate.error.message);
   const data = req.body;
-  console.log("data", data);
   const result = await updateGenre(id, data);
   res.send(result);
 });
 
 //DELETE genre
-router.delete("/:id", (req, res) => {
-  const genre = genres.find((genre) => genre.id === parseInt(req.params.id));
-  if (!genre) return res.status(404).send("Genre not found");
 
-  const index = genres.indexOf(genre);
-  genres.splice(index, 1);
-  res.send(genre);
+async function removeGenre(id) {
+  const genre = await Genre.findByIdAndRemove(id);
+  return genre;
+}
+
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  const genre = await Genre.findById(id);
+  if (!genre) return res.status(404).send("Genre not found");
+  const result = await removeGenre(id);
+  res.send(result);
 });
 
 module.exports = router;
