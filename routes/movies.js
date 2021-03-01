@@ -3,8 +3,6 @@ const Joi = require("joi");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-// Movies services
-
 // mongoDB movie schema
 const movieSchema = new mongoose.Schema({
   title: { type: String, required: true, minlength: 3, maxlength: 30 },
@@ -15,15 +13,6 @@ const movieSchema = new mongoose.Schema({
 
 // MongoDB movie Model
 const Movie = mongoose.model("Movie", movieSchema);
-
-const movies = [];
-// movie schema: {
-//     id,
-//    title,
-//    genreId ,
-//    numberInStock,
-//    dailyRentalRate,
-// }
 
 function validateMovie(movie) {
   const schema = Joi.object({
