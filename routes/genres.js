@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
 
 function validateGenre(genre) {
   const schema = Joi.object({
-    name: Joi.string().alphanum().min(3).max(30).required(),
+    name: Joi.string().min(3).max(30).required(),
   });
 
   return schema.validate(genre);
@@ -47,29 +47,49 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST new genre
-router.post("/", (req, res) => {
-  const result = validateGenre(req.body);
 
-  if (result.error) return res.status(400).send(result.error.message);
+async function postGenre(name) {
+  try {
+    const genre = new Genre({
+      name: name,
+    });
+    const result = await genre.save();
+    return result;
+  } catch (ex) {
+    return ex.message;
+  }
+}
 
-  const genre = {
-    id: genres.length + 1,
-    name: req.body.name,
-  };
-  genres.push(genre);
-  res.send(genre);
+router.post("/", async (req, res) => {
+  const validation = validateGenre(req.body);
+  if (validation.error) return res.status(400).send(validation.error.message);
+  const name = req.body.name;
+  const result = await postGenre(name);
+  res.send(result);
 });
 
 // PUT or update an existing genre
-router.put("/:id", (req, res) => {
-  const genre = genres.find((genre) => genre.id === parseInt(req.params.id));
+
+async function updateGenre(id, data) {
+  const result = await Genre.findByIdAndUpdate(
+    { _id: id },
+    { $set: data },
+    { new: true }
+  );
+  return result;
+}
+
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const genre = await Genre.findById(id);
   if (!genre) return res.status(404).send("Genre not found");
 
-  const result = validateGenre(req.body);
-  if (result.error) return res.status(400).send(result.error.message);
-
-  genre.name = req.body.name;
-  res.send(genre);
+  const validate = validateGenre(req.body);
+  if (validate.error) return res.status(400).send(validate.error.message);
+  const data = req.body;
+  console.log("data", data);
+  const result = await updateGenre(id, data);
+  res.send(result);
 });
 
 //DELETE genre
