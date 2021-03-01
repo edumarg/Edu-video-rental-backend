@@ -7,13 +7,19 @@ const mongoose = require("mongoose");
 
 // mongoDB genre schema
 const genreSchema = new mongoose.Schema({
-  name: { type: String, required: true, minlength: 3, maxlength: 30 },
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 30,
+  },
 });
 
 // MongoDB genre Model
 const Genre = mongoose.model("Genre", genreSchema);
 
 // GET Genres
+
 async function getGenres() {
   const genres = await Genre.find();
   return genres;
@@ -43,6 +49,7 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
   const genre = await getGenreById(id);
   if (!genre) return res.status(404).send("Genre not found");
+
   res.send(genre);
 });
 
@@ -63,6 +70,7 @@ async function postGenre(name) {
 router.post("/", async (req, res) => {
   const validation = validateGenre(req.body);
   if (validation.error) return res.status(400).send(validation.error.message);
+
   const name = req.body.name;
   const result = await postGenre(name);
   res.send(result);
@@ -76,19 +84,19 @@ async function updateGenre(id, data) {
     { $set: data },
     { new: true }
   );
+  console.log("put result", result);
   return result;
 }
 
 router.put("/:id", async (req, res) => {
-  const id = req.params.id;
-  const genre = await Genre.findById(id);
-  if (!genre) return res.status(404).send("Genre not found");
-
   const validate = validateGenre(req.body);
   if (validate.error) return res.status(400).send(validate.error.message);
+
+  const id = req.params.id;
   const data = req.body;
-  const result = await updateGenre(id, data);
-  res.send(result);
+  const genre = await updateGenre(id, data);
+  if (!genre) return res.status(404).send("Genre not found");
+  res.send(genre);
 });
 
 //DELETE genre
@@ -100,10 +108,9 @@ async function removeGenre(id) {
 
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;
-  const genre = await Genre.findById(id);
+  const genre = await removeGenre(id);
   if (!genre) return res.status(404).send("Genre not found");
-  const result = await removeGenre(id);
-  res.send(result);
+  res.send(genre);
 });
 
 module.exports = router;
