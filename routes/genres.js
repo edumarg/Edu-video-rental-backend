@@ -6,17 +6,21 @@ const mongoose = require("mongoose");
 // GENRES services
 
 // mongoDB genre schema
-const genreSchema = new mongoose.schema({
+const genreSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: 3, maxlength: 30 },
 });
 
 // MongoDB genre Model
 const Genre = mongoose.model("Genre", genreSchema);
 
-const genres = [];
-
 // GET Genres
-router.get("/", (req, res) => {
+async function getGenres() {
+  const genres = await Genre.find();
+  return genres;
+}
+
+router.get("/", async (req, res) => {
+  const genres = await getGenres();
   res.send(genres);
 });
 
@@ -29,8 +33,15 @@ function validateGenre(genre) {
 }
 
 // GET genre by id
-router.get("/:id", (req, res) => {
-  const genre = genres.find((genre) => genre.id === parseInt(req.params.id));
+
+async function getGenreById(id) {
+  const genre = await Genre.find({ _id: id });
+  return genre;
+}
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  const genre = await getGenreById(id);
   if (!genre) return res.status(404).send("Genre not found");
   res.send(genre);
 });
