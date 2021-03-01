@@ -7,10 +7,10 @@ const mongoose = require("mongoose");
 
 // mongoDB movie schema
 const movieSchema = new mongoose.schema({
-  title: String,
-  genreId: String,
-  numberInStock: Number,
-  dailyRentalRate: Number,
+  title: { type: String, required: true, minlength: 3, maxlength: 30 },
+  genreId: { type: String, required: true, minlength: 1 },
+  numberInStock: { type: Number, required: true, min: 1, max: 100 },
+  dailyRentalRate: { type: Number, required: true, min: 0.5, max: 10 },
 });
 
 // MongoDB movie Model

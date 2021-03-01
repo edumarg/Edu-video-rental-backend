@@ -6,7 +6,9 @@ const mongoose = require("mongoose");
 // GENRES services
 
 // mongoDB genre schema
-const genreSchema = new mongoose.schema({ name: String });
+const genreSchema = new mongoose.schema({
+  name: { type: String, required: true, minlength: 3, maxlength: 30 },
+});
 
 // MongoDB genre Model
 const Genre = mongoose.model("Genre", genreSchema);
