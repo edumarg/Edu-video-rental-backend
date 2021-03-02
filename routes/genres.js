@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
 
 // POST new genre
 
-async function postGenre(name) {
+async function postNewGenre(name) {
   try {
     const genre = new Genre({
       name: name,
@@ -49,8 +49,8 @@ router.post("/", async (req, res) => {
   if (validation.error) return res.status(400).send(validation.error.message);
 
   const name = req.body.name;
-  const result = await postGenre(name);
-  res.send(result);
+  const genre = await postNewGenre(name);
+  res.send(genre);
 });
 
 // PUT or update an existing genre
