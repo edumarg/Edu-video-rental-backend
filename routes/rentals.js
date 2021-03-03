@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { Rental, validate } = require("../models/rentals");
+const { Rental, validate, validateId } = require("../models/rentals");
 const { getMovieById } = require("./movies");
 const { getCustomersById } = require("./customers");
 
@@ -49,7 +49,9 @@ router.post("/", async (req, res) => {
   if (validation.error) return res.status(400).send(validation.error.message);
 
   const customerId = req.body.customerId;
+  if (!validateId(customerId)) return res.status(400).send("Invalid customer");
   const movieId = req.body.movieId;
+  if (!validateId(movieId)) return res.status(400).send("Invalid movie");
 
   const customer = await getCustomersById(customerId);
   if (!customer) return res.status(400).send("Invalid customer");

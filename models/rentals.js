@@ -41,7 +41,13 @@ function validateRental(rental) {
   return schema.validate(rental);
 }
 
+function validateId(id) {
+  if (!mongoose.Types.ObjectId.isValid(id)) return false;
+  return true;
+}
+
 exports.Rental = Rental;
 exports.movieSchema = movieSchema;
 exports.customerSchema = customerSchema;
 exports.validate = validateRental;
+exports.validateId = validateId;
