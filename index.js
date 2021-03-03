@@ -2,12 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const movies = require("./routes/movies");
-const genres = require("./routes/genres");
+const { genres } = require("./routes/genres");
 const customers = require("./routes/customers");
 
 // Connect to mongoDB
 mongoose
-  .connect("mongodb://localhost/vidly")
+  .connect("mongodb://localhost/vidly", { useFindAndModify: false })
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.log("Error connecting to Mongodb..."));
 

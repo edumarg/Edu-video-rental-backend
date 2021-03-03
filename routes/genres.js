@@ -90,4 +90,5 @@ router.delete("/:id", async (req, res) => {
   res.send(genre);
 });
 
-module.exports = router;
+exports.genres = router;
+exports.getGenreById = getGenreById;
