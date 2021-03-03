@@ -27,5 +27,11 @@ function validateMovie(movie) {
   return schema.validate(movie);
 }
 
+function validateId(id) {
+  if (!mongoose.Types.ObjectId.isValid(id)) return false;
+  return true;
+}
+
 exports.Movie = Movie;
 exports.validate = validateMovie;
+exports.validateId = validateId;
