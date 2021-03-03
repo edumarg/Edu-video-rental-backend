@@ -1,9 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const movies = require("./routes/movies");
+const { movies } = require("./routes/movies");
 const { genres } = require("./routes/genres");
-const customers = require("./routes/customers");
+const { customers } = require("./routes/customers");
+const rentals = require("./routes/rentals");
 
 // Connect to mongoDB
 mongoose
@@ -16,6 +17,7 @@ app.use(express.json()); //allows json parsing
 app.use("/api/movies", movies);
 app.use("/api/genres", genres);
 app.use("/api/customers", customers);
+app.use("/api/rentals", rentals);
 
 // Listen for connections
 const port = process.env.PORT || 3000;

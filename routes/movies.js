@@ -43,14 +43,14 @@ async function postNewMovie(data) {
 }
 
 router.post("/", async (req, res) => {
-  const validation = validate();
+  const data = req.body;
+  const validation = validate(data);
   if (validation.error) return res.status(400).send(validation.error.message);
 
   const genreId = req.body.genreId;
   const genre = await getGenreById(genreId);
   if (!genre) return res.status(404).send("Invalid genre");
 
-  const data = req.body;
   delete data.genreId;
   data.genre = genre;
   const movie = await postNewMovie(data);
@@ -102,4 +102,5 @@ router.delete("/:id", async (req, res) => {
   res.send(movie);
 });
 
-module.exports = router;
+exports.movies = router;
+exports.getMovieById = getMovieById;
