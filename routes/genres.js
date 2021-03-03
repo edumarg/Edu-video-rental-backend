@@ -68,8 +68,8 @@ router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 
-  const validate = validate(data);
-  if (validate.error) return res.status(400).send(validate.error.message);
+  const validation = validate(data);
+  if (validation.error) return res.status(400).send(validation.error.message);
 
   const genre = await updateGenreById(id, data);
   if (!genre) return res.status(404).send("Genre not found");
