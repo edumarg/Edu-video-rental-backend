@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 
 const { User, validate } = require("../models/users");
@@ -6,7 +7,7 @@ const { User, validate } = require("../models/users");
 // GET Users
 
 async function getUsers() {
-  const users = await User.find();
+  const users = await User.find().select({ name: 1, email: 1, _id: 0 });
   return users;
 }
 
@@ -18,7 +19,7 @@ router.get("/", async (req, res) => {
 // Get User by ID
 
 async function getUserById(id) {
-  const user = await User.findById(id);
+  const user = await User.findById(id).select({ name: 1, email: 1, _id: 0 });
   return user;
 }
 
@@ -41,10 +42,22 @@ async function postNewUser(data) {
   }
 }
 
+async function hashPassword(password) {
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
+}
+
 router.post("/", async (req, res) => {
   const data = req.body;
   const validation = validate(data);
   if (validation.error) return res.status(400).send(validation.error.message);
+
+  const findUser = await User.findOne({ email: data.email });
+  if (findUser) return res.status(400).send("User already Register");
+
+  const hashedPassword = await hashPassword(data.password);
+  data.password = hashedPassword;
   const user = await postNewUser(data);
   res.send(user);
 });
