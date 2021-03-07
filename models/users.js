@@ -7,15 +7,21 @@ const usersSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
+    min: 3,
+    max: 20,
   },
   email: {
     type: String,
     require: true,
     unique: true,
+    min: 5,
+    max: 255,
   },
   password: {
     type: String,
     require: true,
+    min: 8,
+    max: 18,
   },
 });
 
@@ -28,7 +34,7 @@ const User = new mongoose.model("User", usersSchema);
 function validateUser(user) {
   const schema = Joi.object({
     name: Joi.string().alphanum().min(3).max(20).required(),
-    email: Joi.string().email().required(),
+    email: Joi.string().email().min(5).max(255).required(),
     password: Joi.string()
       .pattern(new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.*s).{8,16}$"))
       .messages({
