@@ -42,7 +42,7 @@ async function postNewCustomer(data) {
 
 router.post("/", async (req, res) => {
   const validation = validate(req.body);
-  if (validation.error) res.status(400).send(validation.error.message);
+  if (validation.error) return res.status(400).send(validation.error.message);
 
   const customer = await postNewCustomer(req.body);
   res.send(customer);

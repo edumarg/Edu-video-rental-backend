@@ -5,6 +5,7 @@ const { movies } = require("./routes/movies");
 const { genres } = require("./routes/genres");
 const { customers } = require("./routes/customers");
 const rentals = require("./routes/rentals");
+const users = require("./routes/users");
 
 // Connect to mongoDB
 mongoose
@@ -18,6 +19,7 @@ app.use("/api/movies", movies);
 app.use("/api/genres", genres);
 app.use("/api/customers", customers);
 app.use("/api/rentals", rentals);
+app.use("/api/users", users);
 
 // Listen for connections
 const port = process.env.PORT || 3000;
