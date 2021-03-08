@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
 // mongoDB users schema
 
@@ -24,6 +26,11 @@ const usersSchema = new mongoose.Schema({
     max: 1024,
   },
 });
+
+usersSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+  return token;
+};
 
 // mondoDB user model
 

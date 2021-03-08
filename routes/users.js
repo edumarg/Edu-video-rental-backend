@@ -1,7 +1,5 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const config = require("config");
 
 const router = express.Router();
 
@@ -63,7 +61,7 @@ router.post("/", async (req, res) => {
   data.password = hashedPassword;
   const user = await postNewUser(data);
 
-  const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
+  const token = user.generateAuthToken();
   res.header("x-auth-token", token).send(user);
 });
 
