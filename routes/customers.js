@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { Customer, validate } = require("../models/customers");
+const auth = require("../middleware/auth");
 
 // GET Customers
 

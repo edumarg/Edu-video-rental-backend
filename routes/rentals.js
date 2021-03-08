@@ -4,6 +4,7 @@ const router = express.Router();
 const { Rental, validate, validateId } = require("../models/rentals");
 const { getMovieById } = require("./movies");
 const { getCustomersById } = require("./customers");
+const auth = require("../middleware/auth");
 
 // GET rentals
 

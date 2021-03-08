@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 const { User, validate } = require("../models/users");
+const auth = require("../middleware/auth");
 
 // GET Users
 
@@ -24,8 +25,8 @@ async function getUserById(id) {
   return user;
 }
 
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
+router.get("/me", auth, async (req, res) => {
+  const id = req.user._id;
   const user = await getUserById(id);
   if (!user) return res.status(404).send("User not found");
   res.send(user);
