@@ -78,7 +78,7 @@ async function upateUserById(id, data) {
   return user;
 }
 
-router.put("/:id", auth, admin, async (req, res) => {
+router.put("/:id", [auth, admin], async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 
@@ -97,7 +97,7 @@ async function deleteUserById(id) {
   return user;
 }
 
-router.delete("/:id", auth, admin, async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const id = req.params.id;
   const user = await deleteUserById(id);
   if (!user) return res.status(404).send("User not found");
