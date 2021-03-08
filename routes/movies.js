@@ -70,7 +70,7 @@ async function updateMovieById(id, data) {
   return movie;
 }
 
-router.put("/:id", auth, async (req, res) => {
+router.put("/:id", auth, admin, async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 
@@ -97,7 +97,7 @@ async function deleteMovieById(id) {
   return movie;
 }
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", auth, admin, async (req, res) => {
   const id = req.params.id;
   const movie = await deleteMovieById(id);
   if (!movie) return res.status(404).send("Movie not found");

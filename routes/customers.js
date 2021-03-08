@@ -60,7 +60,7 @@ async function updateCustomerById(id, data) {
   return customer;
 }
 
-router.put("/:id", auth, async (req, res) => {
+router.put("/:id", auth, admin, async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 
@@ -79,7 +79,7 @@ async function deleteCustomerById(id) {
   return customer;
 }
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, admin, async (req, res) => {
   const id = req.params.id;
   const customer = await deleteCustomerById(id);
   if (!customer) return res.status(404).send("Customer not Found");
