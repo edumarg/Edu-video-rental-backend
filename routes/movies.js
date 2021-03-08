@@ -4,6 +4,7 @@ const router = express.Router();
 const { Movie, validate, validateId } = require("../models/movies");
 const { getGenreById } = require("./genres");
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 // GET movies
 
