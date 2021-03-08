@@ -49,7 +49,7 @@ async function hashPassword(password) {
   return hash;
 }
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const data = req.body;
   const validation = validate(data);
   if (validation.error) return res.status(400).send(validation.error.message);
@@ -76,7 +76,7 @@ async function upateUserById(id, data) {
   return user;
 }
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 

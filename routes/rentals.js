@@ -43,7 +43,7 @@ async function postNewRental(data) {
   }
 }
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const data = req.body;
   const validation = validate(data);
   if (validation.error) return res.status(400).send(validation.error.message);

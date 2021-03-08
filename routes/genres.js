@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { Genre, validate } = require("../models/genres");
+const auth = require("../middleware/auth");
 
 // GET Genres
 
@@ -44,7 +45,7 @@ async function postNewGenre(name) {
   }
 }
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const validation = validate(req.body);
   if (validation.error) return res.status(400).send(validation.error.message);
 
@@ -64,7 +65,7 @@ async function updateGenreById(id, data) {
   return genre;
 }
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 
@@ -83,7 +84,7 @@ async function removeGenre(id) {
   return genre;
 }
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   const genre = await removeGenre(id);
   if (!genre) return res.status(404).send("Genre not found");
