@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const config = require("config");
+const cors = require("cors");
 
 const { movies } = require("./routes/movies");
 const { genres } = require("./routes/genres");
@@ -21,6 +22,7 @@ mongoose
   .catch((err) => console.log("Error connecting to Mongodb..."));
 
 const app = express();
+app.use(cors());
 app.use(express.json()); //allows json parsing
 app.use("/api/movies", movies);
 app.use("/api/genres", genres);
@@ -30,7 +32,7 @@ app.use("/api/users", users);
 app.use("/api/auth", auth);
 
 // Listen for connections
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3900;
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
 });
