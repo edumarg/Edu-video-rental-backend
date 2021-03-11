@@ -1,9 +1,9 @@
-const express = require("express"); //www.npmjs.com/package/express
-require("express-async-errors"); //www.npmjs.com/package/express-async-errors"
-const mongoose = require("mongoose"); //www.npmjs.com/package/mongoose
-const config = require("config");
-const cors = require("cors"); //www.npmjs.com/package/cors
-const winston = require("winston"); //www.npmjs.com/package/winston
+const express = require("express"); // https://www.npmjs.com/package/express
+require("express-async-errors"); // https://www.npmjs.com/package/express-async-errors"
+const mongoose = require("mongoose"); // https://www.npmjs.com/package/mongoose
+const config = require("config"); // https://www.npmjs.com/package/config
+const cors = require("cors"); // https://www.npmjs.com/package/cors
+const winston = require("winston"); // https://www.npmjs.com/package/winston
 require("winston-mongodb"); // https://www.npmjs.com/package/winston-mongodb
 
 const { movies } = require("./routes/movies");
@@ -25,6 +25,11 @@ winston.add(
     level: "info",
   })
 );
+
+process.on("uncaughtException", (ex) => {
+  console.log("UNCAUGHT EXCEPTION occured...");
+  winston.error(ex.message);
+}); // catch unhandled exceptions,
 
 if (!config.get("jwtPrivateKey")) {
   console.log("FATAL ERROR: jwtPrivateKey not defined.");
