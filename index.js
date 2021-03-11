@@ -15,30 +15,36 @@ const auth = require("./routes/auth");
 
 const error = require("./middleware/error");
 
+// catch errors
 winston.add(new winston.transports.File({ filename: "logfile.log" })); // added a loger using the winston library
 // https://github.com/winstonjs/winston/tree/2.x#using-the-default-logger
 // https://stackoverflow.com/questions/51702149/invalid-transport-must-be-an-object-with-a-log-method-winston-mongodb-logging
 
+// catch unhandled exceptions
+// https://www.npmjs.com/package/winston#handling-uncaught-exceptions-with-winston
+winston.add(
+  new winston.transports.File({
+    filename: "uncaughtExepctions.log",
+    handleExceptions: true,
+  })
+);
+
+// catch rejected promises.
+// https://www.npmjs.com/package/winston#handling-uncaught-promise-rejections-with-winston
+winston.add(
+  new winston.transports.File({
+    filename: "rejectedPromises.log",
+    handleRejections: true,
+  })
+);
+
+// add MongoDB transport to log errors to mongoDB
 winston.add(
   new winston.transports.MongoDB({
     db: "mongodb://localhost/vidly",
     level: "info",
   })
 );
-
-// catch unhandled exceptions,
-process.on("uncaughtException", (ex) => {
-  console.log("UNCAUGHT EXCEPTION occured...");
-  winston.error(ex.message);
-  process.exit(1);
-});
-
-// catch rejected promises.
-process.on("unhandledRejection", (ex) => {
-  console.log("UNHANDLE EXCEPTION occured...");
-  winston.error(ex.message);
-  process.exit(1);
-});
 
 if (!config.get("jwtPrivateKey")) {
   console.log("FATAL ERROR: jwtPrivateKey not defined.");
