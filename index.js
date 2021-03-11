@@ -26,10 +26,19 @@ winston.add(
   })
 );
 
+// catch unhandled exceptions,
 process.on("uncaughtException", (ex) => {
   console.log("UNCAUGHT EXCEPTION occured...");
   winston.error(ex.message);
-}); // catch unhandled exceptions,
+  process.exit(1);
+});
+
+// catch rejected promises.
+process.on("unhandledRejection", (ex) => {
+  console.log("UNHANDLE EXCEPTION occured...");
+  winston.error(ex.message);
+  process.exit(1);
+});
 
 if (!config.get("jwtPrivateKey")) {
   console.log("FATAL ERROR: jwtPrivateKey not defined.");
