@@ -1,8 +1,10 @@
-const express = require("express");
-require("express-async-errors");
-const mongoose = require("mongoose");
+const express = require("express"); //www.npmjs.com/package/express
+require("express-async-errors"); //www.npmjs.com/package/express-async-errors"
+const mongoose = require("mongoose"); //www.npmjs.com/package/mongoose
 const config = require("config");
-const cors = require("cors");
+const cors = require("cors"); //www.npmjs.com/package/cors
+const winston = require("winston"); //www.npmjs.com/package/winston
+require("winston-mongodb"); // https://www.npmjs.com/package/winston-mongodb
 
 const { movies } = require("./routes/movies");
 const { genres } = require("./routes/genres");
@@ -12,6 +14,17 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 
 const error = require("./middleware/error");
+
+winston.add(new winston.transports.File({ filename: "logfile.log" })); // added a loger using the winston library
+// https://github.com/winstonjs/winston/tree/2.x#using-the-default-logger
+// https://stackoverflow.com/questions/51702149/invalid-transport-must-be-an-object-with-a-log-method-winston-mongodb-logging
+
+winston.add(
+  new winston.transports.MongoDB({
+    db: "mongodb://localhost/vidly",
+    level: "info",
+  })
+);
 
 if (!config.get("jwtPrivateKey")) {
   console.log("FATAL ERROR: jwtPrivateKey not defined.");

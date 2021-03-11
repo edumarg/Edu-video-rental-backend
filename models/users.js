@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const jwt = require("jsonwebtoken");
-const config = require("config");
+const jwt = require("jsonwebtoken"); // www.npmjs.com/package/jsonwebtoken
+const config = require("config"); // www.npmjs.com/package/config
 
 // mongoDB users schema
 

@@ -1,6 +1,6 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
-const Joi = require("joi");
+const bcrypt = require("bcrypt"); //www.npmjs.com/package/bcrypt
+const Joi = require("joi"); //www.npmjs.com/package/joi
 const router = express.Router();
 
 const { User } = require("../models/users");
