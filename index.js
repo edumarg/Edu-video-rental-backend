@@ -6,6 +6,7 @@ require("./startup/logging")();
 require("./startup/config")();
 require("./startup/routes")(app);
 require("./startup/db")();
+require("./startup/prod")(app);
 
 // Listen for connections
 const port = process.env.PORT || 3900;
